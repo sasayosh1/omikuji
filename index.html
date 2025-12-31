@@ -134,20 +134,30 @@
     .omikuji-box-wrapper {
       position: relative;
       width: 140px;
-      height: 200px;
+      height: 220px;
       perspective: 1000px;
     }
 
     .omikuji-box {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, var(--red), #8b0000);
-      border-radius: 12px;
+      background: #1a1a1a;
       position: relative;
       display: flex;
       justify-content: center;
-      box-shadow: 0 20px 40px -10px rgba(139, 0, 0, 0.4);
-      border: 2px solid var(--gold);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+      clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+      border: 4px solid var(--gold);
+    }
+
+    .omikuji-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 45%, rgba(255, 255, 255, 0.1) 50%, transparent 55%);
     }
 
     .omikuji-box::after {
@@ -157,9 +167,73 @@
       left: 50%;
       transform: translate(-50%, -50%);
       color: var(--gold);
-      font-size: 64px;
+      font-size: 52px;
       font-weight: 900;
-      opacity: 0.8;
+      opacity: 0.9;
+    }
+
+    /* Traditional red label */
+    .box-label {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--red);
+      color: white;
+      padding: 10px 4px;
+      writing-mode: vertical-rl;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      border: 1px solid var(--gold);
+    }
+
+    /* Small hole at the top */
+    .box-hole {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: #000;
+      border-radius: 50%;
+      z-index: 5;
+    }
+
+    /* The Stick (Miku-ji Bo) */
+    .stick {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 8px;
+      height: 180px;
+      background: #e3c192;
+      /* Bamboo color */
+      transform: translateX(-50%) translateY(0);
+      z-index: 1;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .stick::after {
+      content: attr(data-fortune);
+      position: absolute;
+      bottom: 10px;
+      writing-mode: vertical-rl;
+      font-weight: 900;
+      font-size: 10px;
+      color: #333;
+    }
+
+    .stick.emerge {
+      transform: translateX(-50%) translateY(-140px) rotate(5deg);
+      opacity: 1;
+      z-index: 10;
     }
 
     /* Shaking Animation */
@@ -430,12 +504,16 @@
       <!-- Initial State -->
       <div id="lotteryView" class="lottery-area">
         <div class="omikuji-box-wrapper">
-          <div id="omikujiBox" class="omikuji-box"></div>
+          <div id="omikujiBox" class="omikuji-box">
+            <div class="box-hole"></div>
+            <div class="box-label">おみくじ</div>
+          </div>
+          <div id="mikuStick" class="stick" data-fortune="大吉"></div>
           <div id="paper" class="paper">
             <div style="font-size:10px; font-weight:900; color:var(--red)">開運</div>
             <div
-              style="flex:1; display:flex; align-items:center; font-weight:900; font-size:12px; writing-mode:vertical-rl">
-              大吉</div>
+              style="flex:1; display:flex; align-items:center; font-weight:900; font-size:12px; writing-mode:vertical-rl"
+              id="paperInsignia">大吉</div>
           </div>
         </div>
         <div class="button-group" style="width: 100%">
@@ -724,8 +802,15 @@
 
     const startLottery = () => {
       const box = $("omikujiBox");
+      const stick = $("mikuStick");
       const paper = $("paper");
       const btn = $("lotteryBtn");
+
+      // Generate result early to set stick data
+      const result = generateResult();
+      state.result = result;
+      stick.setAttribute('data-fortune', result.fortune);
+      $("paperInsignia").textContent = result.fortune;
 
       btn.disabled = true;
       box.classList.add("shaking");
@@ -734,17 +819,21 @@
 
       setTimeout(() => {
         box.classList.remove("shaking");
-        paper.classList.add("emerge");
+        stick.classList.add("emerge"); // Stick comes out first
         playSound("ding");
         vibrate(150);
 
         setTimeout(() => {
-          const result = generateResult();
-          state.result = result;
-          saveResult(result);
-          renderResult(result);
-          btn.disabled = false; // Reset for next time
-        }, 800);
+          // Transition from stick to paper
+          stick.classList.remove("emerge");
+          paper.classList.add("emerge");
+
+          setTimeout(() => {
+            saveResult(result);
+            renderResult(result);
+            btn.disabled = false;
+          }, 600);
+        }, 1200); // Show stick for a bit
       }, 1500);
     };
 
