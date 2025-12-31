@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -32,15 +33,18 @@
       }
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
       padding: 0;
       color: var(--ink);
       font-family: var(--font);
       background-color: var(--bg);
-      background-image: 
+      background-image:
         radial-gradient(circle at 20% 20%, rgba(185, 28, 28, 0.05), transparent 40%),
         radial-gradient(circle at 80% 80%, rgba(161, 98, 7, 0.05), transparent 40%);
       min-height: 100vh;
@@ -53,7 +57,10 @@
     /* 和柄：麻の葉模様風（軽量CSS） */
     .pattern-bg {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: -1;
       opacity: 0.4;
       background-image: radial-gradient(var(--border) 1px, transparent 1px);
@@ -146,7 +153,8 @@
     .omikuji-box::after {
       content: "午";
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       color: var(--gold);
       font-size: 64px;
@@ -160,11 +168,25 @@
     }
 
     @keyframes shake {
-      0% { transform: rotate(0) translate(0, 0); }
-      25% { transform: rotate(5deg) translate(2px, -2px); }
-      50% { transform: rotate(0) translate(-2px, 2px); }
-      75% { transform: rotate(-5deg) translate(2px, 2px); }
-      100% { transform: rotate(0) translate(0, 0); }
+      0% {
+        transform: rotate(0) translate(0, 0);
+      }
+
+      25% {
+        transform: rotate(5deg) translate(2px, -2px);
+      }
+
+      50% {
+        transform: rotate(0) translate(-2px, 2px);
+      }
+
+      75% {
+        transform: rotate(-5deg) translate(2px, 2px);
+      }
+
+      100% {
+        transform: rotate(0) translate(0, 0);
+      }
     }
 
     /* The Result Paper */
@@ -184,7 +206,7 @@
       flex-direction: column;
       align-items: center;
       padding: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .paper.emerge {
@@ -200,8 +222,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .fortune-title {
@@ -314,7 +343,10 @@
       box-shadow: 0 8px 24px -6px rgba(185, 28, 28, 0.4);
     }
 
-    .btn-primary:active { transform: scale(0.96); box-shadow: 0 4px 12px -4px rgba(185, 28, 28, 0.4); }
+    .btn-primary:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 12px -4px rgba(185, 28, 28, 0.4);
+    }
 
     .btn-secondary {
       background: white;
@@ -322,7 +354,10 @@
       border: 1px solid #e2e8f0;
     }
 
-    .btn-secondary:active { transform: scale(0.96); background: #f8fafc; }
+    .btn-secondary:active {
+      transform: scale(0.96);
+      background: #f8fafc;
+    }
 
     /* Settings / Toggles */
     .settings {
@@ -378,371 +413,399 @@
     }
   </style>
 </head>
+
 <body>
 
-<div class="pattern-bg"></div>
-<canvas id="canvas"></canvas>
+  <div class="pattern-bg"></div>
+  <canvas id="canvas"></canvas>
 
-<div class="container">
-  <header>
-    <div class="badge">2026 丙午</div>
-    <h1>午年おみくじ</h1>
-    <p class="subtitle">今日はどんな一歩を踏み出す？</p>
-  </header>
+  <div class="container">
+    <header>
+      <div class="badge">2026 丙午</div>
+      <h1>午年おみくじ</h1>
+      <p class="subtitle">今日はどんな一歩を踏み出す？</p>
+    </header>
 
-  <div class="card" id="mainCard">
-    <!-- Initial State -->
-    <div id="lotteryView" class="lottery-area">
-      <div class="omikuji-box-wrapper">
-        <div id="omikujiBox" class="omikuji-box"></div>
-        <div id="paper" class="paper">
-          <div style="font-size:10px; font-weight:900; color:var(--red)">開運</div>
-          <div style="flex:1; display:flex; align-items:center; font-weight:900; font-size:12px; writing-mode:vertical-rl">大吉</div>
+    <div class="card" id="mainCard">
+      <!-- Initial State -->
+      <div id="lotteryView" class="lottery-area">
+        <div class="omikuji-box-wrapper">
+          <div id="omikujiBox" class="omikuji-box"></div>
+          <div id="paper" class="paper">
+            <div style="font-size:10px; font-weight:900; color:var(--red)">開運</div>
+            <div
+              style="flex:1; display:flex; align-items:center; font-weight:900; font-size:12px; writing-mode:vertical-rl">
+              大吉</div>
+          </div>
+        </div>
+        <div class="button-group" style="width: 100%">
+          <button class="btn btn-primary" id="lotteryBtn">🎴 おみくじを引く</button>
         </div>
       </div>
-      <div class="button-group" style="width: 100%">
-        <button class="btn btn-primary" id="lotteryBtn">🎴 おみくじを引く</button>
+
+      <!-- Result State -->
+      <div id="resultView" class="result-view">
+        <div style="text-align: center; font-size: 12px; font-weight: 800; color: var(--muted);" id="resultDate">
+          2026.01.01</div>
+        <div class="fortune-title" id="fortuneTitle">大吉</div>
+        <p class="fortune-lead" id="fortuneLead">
+          勢いよく駆け抜ける一年。迷わず進めば道は開けます。
+        </p>
+
+        <div class="grid-details">
+          <div class="detail-item">
+            <div class="detail-label">仕事・学び</div>
+            <div class="detail-value" id="resWork">準備が整い、成果が出る時</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">恋愛・人</div>
+            <div class="detail-value" id="resLove">素直な気持ちが吉を呼ぶ</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">金運</div>
+            <div class="detail-value" id="resMoney">欲を張らずに、循環させる</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">健康</div>
+            <div class="detail-value" id="resHealth">深呼吸でリズムを整えて</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">ラッキーアイテム</div>
+            <div class="detail-value" id="resItem">新しいノート</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">ラッキーカラー</div>
+            <div class="detail-value" id="resColor">朱色</div>
+          </div>
+        </div>
+
+        <div class="actions-list">
+          <div class="actions-title">✨ 今日の開運アクション</div>
+          <div id="resActions">
+            <!-- Rows will be injected -->
+          </div>
+        </div>
+
+        <div class="horse-quote" id="horseQuote">「風を切り、千里を走る勢いで」</div>
+
+        <div class="button-group" style="margin-top: 32px">
+          <button class="btn btn-primary" id="shareBtn">📩 結果をシェアする</button>
+          <button class="btn btn-secondary" id="resetBtn">↩️ もう一度引く</button>
+        </div>
       </div>
     </div>
 
-    <!-- Result State -->
-    <div id="resultView" class="result-view">
-      <div style="text-align: center; font-size: 12px; font-weight: 800; color: var(--muted);" id="resultDate">2026.01.01</div>
-      <div class="fortune-title" id="fortuneTitle">大吉</div>
-      <p class="fortune-lead" id="fortuneLead">
-        勢いよく駆け抜ける一年。迷わず進めば道は開けます。
-      </p>
-
-      <div class="grid-details">
-        <div class="detail-item">
-          <div class="detail-label">仕事・学び</div>
-          <div class="detail-value" id="resWork">準備が整い、成果が出る時</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">恋愛・人</div>
-          <div class="detail-value" id="resLove">素直な気持ちが吉を呼ぶ</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">金運</div>
-          <div class="detail-value" id="resMoney">欲を張らずに、循環させる</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">健康</div>
-          <div class="detail-value" id="resHealth">深呼吸でリズムを整えて</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">ラッキーアイテム</div>
-          <div class="detail-value" id="resItem">新しいノート</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">ラッキーカラー</div>
-          <div class="detail-value" id="resColor">朱色</div>
-        </div>
-      </div>
-
-      <div class="actions-list">
-        <div class="actions-title">✨ 今日の開運アクション</div>
-        <div id="resActions">
-          <!-- Rows will be injected -->
-        </div>
-      </div>
-
-      <div class="horse-quote" id="horseQuote">「風を切り、千里を走る勢いで」</div>
-
-      <div class="button-group" style="margin-top: 32px">
-        <button class="btn btn-primary" id="shareBtn">📩 結果をシェアする</button>
-        <button class="btn btn-secondary" id="resetBtn">↩️ もう一度引く</button>
-      </div>
+    <div class="settings">
+      <button class="toggle-btn active" id="soundToggle">🔊 音</button>
+      <button class="toggle-btn active" id="vibeToggle">📳 バイブ</button>
+      <button class="toggle-btn active" id="effectToggle">✨ 演出</button>
     </div>
+
+    <footer>
+      <p>※本おみくじに「凶・大凶」は含まれません。<br>前向きな一年になりますように。</p>
+      <p>&copy; 2026 Omikuji Project</p>
+    </footer>
   </div>
 
-  <div class="settings">
-    <button class="toggle-btn active" id="soundToggle">🔊 音</button>
-    <button class="toggle-btn active" id="vibeToggle">📳 バイブ</button>
-    <button class="toggle-btn active" id="effectToggle">✨ 演出</button>
-  </div>
+  <script>
+    // --- Data ---
+    const fortunes = [
+      { name: "大吉", lead: "最高のスタート。あなたの情熱が周りを動かし、千里を駆ける名馬のような勢いで進める時です。", weight: 15, intensity: 3 },
+      { name: "中吉", lead: "追い風が吹いています。丁寧な準備が大きな実りへと繋がります。一歩ずつ着実に進みましょう。", weight: 25, intensity: 2 },
+      { name: "小吉", lead: "穏やかで良い運気。日常の小さな幸せに気づくことで、さらに運気が開けていきます。", weight: 30, intensity: 1 },
+      { name: "吉", lead: "誠実さが鍵。当たり前のことを大切にすれば、望んでいた結果は自然と付いてきます。", weight: 20, intensity: 1 },
+      { name: "末吉", lead: "これからの伸び代が大きい運勢。今は足元を固めて、来るべき飛躍の時に備えましょう。", weight: 10, intensity: 1 }
+    ];
 
-  <footer>
-    <p>※本おみくじに「凶・大凶」は含まれません。<br>前向きな一年になりますように。</p>
-    <p>&copy; 2026 Omikuji Project</p>
-  </footer>
-</div>
+    const workItems = ["粘り強さが評価される", "新しいアイデアを書き留めて", "午前中の決断が吉", "復習が最大の武器になる", "短時間の集中を繰り返す"];
+    const loveItems = ["感謝を言葉にして伝える", "リラックスして会話を楽しむ", "聞き手に回ると発見がある", "懐かしい友に連絡も吉", "自分を磨く時間が魅力に"];
+    const moneyItems = ["小さな節約が大きな蓄えに", "長く使えるものを選ぶ", "お財布をすっきり整理", "自己投資には惜しみなく", "募金や贈り物が巡り巡る"];
+    const healthItems = ["ストレッチで体をほぐす", "旬の食材を味わう", "早寝早起きが運気を呼ぶ", "深呼吸で心を落ち着かせる", "水を一口多めに飲む"];
+    const items = ["新しい筆記具", "干支のストラップ", "懐紙", "お守り", "赤いハンカチ", "お気に入りのお香", "本", "木製の小物"];
+    const colors = ["朱色（しゅいろ）", "金茶（きんちゃ）", "白萌木（しろもえぎ）", "藍鼠（あいねず）", "生成色（きなりいろ）", "若草色"];
+    const actions = [
+      "朝一番に窓を開けて換気する", "靴を並べて揃える", "鏡を見て笑顔の練習をする",
+      "デスクの周りを1箇所だけ掃除する", "深呼吸を3回ゆっくり行う",
+      "今日感謝したい人を一人思い浮かべる", "背筋を伸ばして歩く",
+      "温かい飲み物をゆっくり味わう"
+    ];
+    const horseQuotes = [
+      "「風を切り、千里を走る勢いで」",
+      "「天高く、飛躍の一歩を刻む年」",
+      "「大地を蹴り、未来へ駆け抜けろ」",
+      "「黄金のたてがみを揺らし、光を掴む」",
+      "「群れを率いる王者の如き風格を」"
+    ];
 
-<script>
-  // --- Data ---
-  const fortunes = [
-    { name: "大吉", lead: "最高のスタート。あなたの情熱が周りを動かし、千里を駆ける名馬のような勢いで進める時です。", weight: 15, intensity: 3 },
-    { name: "中吉", lead: "追い風が吹いています。丁寧な準備が大きな実りへと繋がります。一歩ずつ着実に進みましょう。", weight: 25, intensity: 2 },
-    { name: "小吉", lead: "穏やかで良い運気。日常の小さな幸せに気づくことで、さらに運気が開けていきます。", weight: 30, intensity: 1 },
-    { name: "吉",   lead: "誠実さが鍵。当たり前のことを大切にすれば、望んでいた結果は自然と付いてきます。", weight: 20, intensity: 1 },
-    { name: "末吉", lead: "これからの伸び代が大きい運勢。今は足元を固めて、来るべき飛躍の時に備えましょう。", weight: 10, intensity: 1 }
-  ];
+    // --- Configuration & State ---
+    let state = {
+      sound: true,
+      vibration: true,
+      effects: true,
+      result: null
+    };
 
-  const workItems = ["粘り強さが評価される","新しいアイデアを書き留めて","午前中の決断が吉","復習が最大の武器になる","短時間の集中を繰り返す"];
-  const loveItems = ["感謝を言葉にして伝える","リラックスして会話を楽しむ","聞き手に回ると発見がある","懐かしい友に連絡も吉","自分を磨く時間が魅力に"];
-  const moneyItems = ["小さな節約が大きな蓄えに","長く使えるものを選ぶ","お財布をすっきり整理","自己投資には惜しみなく","募金や贈り物が巡り巡る"];
-  const healthItems = ["ストレッチで体をほぐす","旬の食材を味わう","早寝早起きが運気を呼ぶ","深呼吸で心を落ち着かせる","水を一口多めに飲む"];
-  const items = ["新しい筆記具","干支のストラップ","懐紙","お守り","赤いハンカチ","お気に入りのお香","本","木製の小物"];
-  const colors = ["朱色（しゅいろ）","金茶（きんちゃ）","白萌木（しろもえぎ）","藍鼠（あいねず）","生成色（きなりいろ）","若草色"];
-  const actions = [
-    "朝一番に窓を開けて換気する", "靴を並べて揃える", "鏡を見て笑顔の練習をする", 
-    "デスクの周りを1箇所だけ掃除する", "深呼吸を3回ゆっくり行う", 
-    "今日感謝したい人を一人思い浮かべる", "背筋を伸ばして歩く", 
-    "温かい飲み物をゆっくり味わう"
-  ];
-  const horseQuotes = [
-    "「風を切り、千里を走る勢いで」",
-    "「天高く、飛躍の一歩を刻む年」",
-    "「大地を蹴り、未来へ駆け抜けろ」",
-    "「黄金のたてがみを揺らし、光を掴む」",
-    "「群れを率いる王者の如き風格を」"
-  ];
+    const LS_KEY = 'omikuji_2026_result';
 
-  // --- Configuration & State ---
-  let state = {
-    sound: true,
-    vibration: true,
-    effects: true,
-    result: null
-  };
+    // --- Utils ---
+    const $ = (id) => document.getElementById(id);
+    const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  const LS_KEY = 'omikuji_2026_result';
+    const getWeightedFortune = () => {
+      const total = fortunes.reduce((sum, f) => sum + f.weight, 0);
+      let r = Math.random() * total;
+      for (const f of fortunes) {
+        r -= f.weight;
+        if (r <= 0) return f;
+      }
+      return fortunes[0];
+    };
 
-  // --- Utils ---
-  const $ = (id) => document.getElementById(id);
-  const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  
-  const getWeightedFortune = () => {
-    const total = fortunes.reduce((sum, f) => sum + f.weight, 0);
-    let r = Math.random() * total;
-    for (const f of fortunes) {
-      r -= f.weight;
-      if (r <= 0) return f;
+    // --- Web Audio (Synthetic Drumroll & Ding) ---
+    let audioCtx;
+    const playSound = (type) => {
+      if (!state.sound) return;
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const gain = audioCtx.createGain();
+        gain.connect(audioCtx.destination);
+
+        if (type === 'roll') {
+          const duration = 1.5;
+          // Wooden rattle sound using white noise pulses
+          const bufferSize = audioCtx.sampleRate * duration;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+
+          for (let i = 0; i < bufferSize; i++) {
+            // Pulse the noise to sound like a rattle
+            const pulse = Math.sin(i * 0.01) > 0.8 ? 1 : 0;
+            data[i] = (Math.random() * 2 - 1) * 0.1 * pulse * (1 - i / bufferSize);
+          }
+
+          const source = audioCtx.createBufferSource();
+          source.buffer = buffer;
+          source.connect(gain);
+          gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+          source.start();
+        } else if (type === 'ding') {
+          // High-quality chime using two oscillators
+          const t = audioCtx.currentTime;
+          [880, 1760.3].forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const oscGain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, t);
+            oscGain.gain.setValueAtTime(i === 0 ? 0.3 : 0.1, t);
+            oscGain.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+            osc.connect(oscGain);
+            oscGain.connect(gain);
+            osc.start(t);
+            osc.stop(t + 1.2);
+          });
+        }
+      } catch (e) { }
+    };
+
+    // --- Vibration ---
+    const vibrate = (ms) => {
+      if (state.vibration && "vibrate" in navigator) {
+        navigator.vibrate(ms);
+      }
+    };
+
+    // --- Confetti ---
+    const canvas = $("canvas");
+    const ctx = canvas.getContext("2d");
+    let confetti = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-    return fortunes[0];
-  };
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-  // --- Web Audio (Synthetic Drumroll & Ding) ---
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const playSound = (type) => {
-    if (!state.sound) return;
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    if (type === 'roll') {
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 1.5);
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 1.5);
-    } else if (type === 'ding') {
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5);
-      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.5);
-    }
-  };
-
-  // --- Vibration ---
-  const vibrate = (ms) => {
-    if (state.vibration && "vibrate" in navigator) {
-      navigator.vibrate(ms);
-    }
-  };
-
-  // --- Confetti ---
-  const canvas = $("canvas");
-  const ctx = canvas.getContext("2d");
-  let confetti = [];
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-
-  function spawnConfetti(count) {
-    if (!state.effects) return;
-    const colorsList = ["#b91c1c", "#a16207", "#facc15", "#ffffff"];
-    for (let i = 0; i < count; i++) {
-      confetti.push({
-        x: Math.random() * canvas.width,
-        y: -20,
-        r: Math.random() * 6 + 4,
-        d: Math.random() * 10 + 2,
-        color: rnd(colorsList),
-        tilt: Math.random() * 10 - 5
-      });
-    }
-  }
-
-  function updateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    confetti.forEach((p, i) => {
-      p.y += p.d;
-      p.x += Math.sin(p.y / 20);
-      ctx.beginPath();
-      ctx.fillStyle = p.color;
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-      if (p.y > canvas.height) confetti.splice(i, 1);
-    });
-    requestAnimationFrame(updateConfetti);
-  }
-  updateConfetti();
-
-  // --- Core Logic ---
-  const saveResult = (res) => {
-    localStorage.setItem(LS_KEY, JSON.stringify({
-      ...res,
-      date: new Date().toDateString()
-    }));
-  };
-
-  const loadResult = () => {
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.date === new Date().toDateString()) {
-        return parsed;
+    function spawnConfetti(count) {
+      if (!state.effects) return;
+      const colorsList = ["#b91c1c", "#a16207", "#facc15", "#ffffff"];
+      for (let i = 0; i < count; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: -40,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 8 + 2, // Slightly slower fall
+          color: rnd(colorsList),
+          tilt: Math.random() * 10 - 5
+        });
       }
     }
-    return null;
-  };
 
-  const generateResult = () => {
-    const f = getWeightedFortune();
-    // Pick 3 unique actions
-    let actionSet = new Set();
-    while(actionSet.size < 3) actionSet.add(rnd(actions));
-
-    return {
-      fortune: f.name,
-      lead: f.lead,
-      intensity: f.intensity,
-      work: rnd(workItems),
-      love: rnd(loveItems),
-      money: rnd(moneyItems),
-      health: rnd(healthItems),
-      item: rnd(items),
-      color: rnd(colors),
-      actions: Array.from(actionSet),
-      quote: rnd(horseQuotes)
-    };
-  };
-
-  const renderResult = (res) => {
-    $("lotteryView").style.display = "none";
-    $("resultView").style.display = "block";
-    
-    $("fortuneTitle").textContent = res.fortune;
-    $("fortuneLead").textContent = res.lead;
-    $("resWork").textContent = res.work;
-    $("resLove").textContent = res.love;
-    $("resMoney").textContent = res.money;
-    $("resHealth").textContent = res.health;
-    $("resItem").textContent = res.item;
-    $("resColor").textContent = res.color;
-    $("horseQuote").textContent = res.quote;
-    
-    const actionContainer = $("resActions");
-    actionContainer.innerHTML = res.actions.map(a => `<div class="action-row">${a}</div>`).join("");
-    
-    const now = new Date();
-    $("resultDate").textContent = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
-
-    if (state.effects) {
-      spawnConfetti(res.intensity * 40);
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((p, i) => {
+        p.y += p.d;
+        p.x += Math.sin(p.y / 25) * 1.5;
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (p.y > canvas.height + 20) confetti.splice(i, 1);
+      });
+      requestAnimationFrame(updateConfetti);
     }
-  };
+    updateConfetti();
 
-  const startLottery = () => {
-    const box = $("omikujiBox");
-    const paper = $("paper");
-    const btn = $("lotteryBtn");
-    
-    btn.disabled = true;
-    box.classList.add("shaking");
-    playSound("roll");
-    vibrate([100, 50, 100, 50, 100]);
+    // --- Core Logic ---
+    const saveResult = (res) => {
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        ...res,
+        date: new Date().toDateString()
+      }));
+    };
 
-    setTimeout(() => {
-      box.classList.remove("shaking");
-      paper.classList.add("emerge");
-      playSound("ding");
-      vibrate(200);
+    const loadResult = () => {
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.date === new Date().toDateString()) {
+          return parsed;
+        }
+      }
+      return null;
+    };
+
+    const generateResult = () => {
+      const f = getWeightedFortune();
+      // Pick 3 unique actions
+      let actionSet = new Set();
+      while (actionSet.size < 3) actionSet.add(rnd(actions));
+
+      return {
+        fortune: f.name,
+        lead: f.lead,
+        intensity: f.intensity,
+        work: rnd(workItems),
+        love: rnd(loveItems),
+        money: rnd(moneyItems),
+        health: rnd(healthItems),
+        item: rnd(items),
+        color: rnd(colors),
+        actions: Array.from(actionSet),
+        quote: rnd(horseQuotes)
+      };
+    };
+
+    const renderResult = (res) => {
+      $("lotteryView").style.display = "none";
+      $("resultView").style.display = "block";
+
+      $("fortuneTitle").textContent = res.fortune;
+      $("fortuneLead").textContent = res.lead;
+      $("resWork").textContent = res.work;
+      $("resLove").textContent = res.love;
+      $("resMoney").textContent = res.money;
+      $("resHealth").textContent = res.health;
+      $("resItem").textContent = res.item;
+      $("resColor").textContent = res.color;
+      $("horseQuote").textContent = res.quote;
+
+      const actionContainer = $("resActions");
+      actionContainer.innerHTML = res.actions.map(a => `<div class="action-row">${a}</div>`).join("");
+
+      const now = new Date();
+      $("resultDate").textContent = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+
+      if (state.effects) {
+        spawnConfetti(res.intensity * 40);
+      }
+    };
+
+    const startLottery = () => {
+      const box = $("omikujiBox");
+      const paper = $("paper");
+      const btn = $("lotteryBtn");
+
+      btn.disabled = true;
+      box.classList.add("shaking");
+      playSound("roll");
+      vibrate([80, 40, 80, 40, 80]);
 
       setTimeout(() => {
-        const result = generateResult();
-        state.result = result;
-        saveResult(result);
-        renderResult(result);
-      }, 800);
-    }, 1500);
-  };
+        box.classList.remove("shaking");
+        paper.classList.add("emerge");
+        playSound("ding");
+        vibrate(150);
 
-  // --- Shared & Clipboard ---
-  const share = async () => {
-    const res = state.result;
-    if (!res) return;
-    const text = `🐴 2026年午年おみくじ【${res.fortune}】\n${res.lead}\nラッキーカラー：${res.color}\n開運アクション：${res.actions[0]} 他\n#おみくじ #2026年 #午年`;
-    const url = window.location.href;
+        setTimeout(() => {
+          const result = generateResult();
+          state.result = result;
+          saveResult(result);
+          renderResult(result);
+          btn.disabled = false; // Reset for next time
+        }, 800);
+      }, 1500);
+    };
 
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "午年おみくじ 2026", text, url });
-      } catch (err) {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(text + "\n" + url);
-        alert("結果をコピーしました！LINEやSNSに貼り付けてね 🐴");
-      } catch (err) {
-        alert("コピーに失敗しました。");
+    // --- Shared & Clipboard ---
+    const share = async () => {
+      const res = state.result;
+      if (!res) return;
+      const text = `🐴 2026年午年おみくじ【${res.fortune}】\n${res.lead}\nラッキーカラー：${res.color}\n開運アクション：${res.actions[0]} 他\n#おみくじ #2026年 #午年`;
+      const url = window.location.href;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: "午年おみくじ 2026", text, url });
+        } catch (err) { }
+      } else {
+        try {
+          await navigator.clipboard.writeText(text + "\n" + url);
+          alert("結果をコピーしました！LINEやSNSに貼り付けてね 🐴");
+        } catch (err) {
+          alert("コピーに失敗しました。");
+        }
       }
-    }
-  };
+    };
 
-  // --- Events ---
-  $("lotteryBtn").addEventListener("click", startLottery);
-  $("shareBtn").addEventListener("click", share);
-  
-  $("resetBtn").addEventListener("click", () => {
-    if (confirm("今日の結果を消して、もう一度引きますか？")) {
+    // --- Events ---
+    $("lotteryBtn").addEventListener("click", startLottery);
+    $("shareBtn").addEventListener("click", share);
+
+    $("resetBtn").addEventListener("click", () => {
+      // Immediate reset to improve experience
       localStorage.removeItem(LS_KEY);
-      location.reload();
-    }
-  });
+      playSound("ding");
 
-  // Toggles
-  const handleToggle = (id, field) => {
-    $(id).addEventListener("click", (e) => {
-      state[field] = !state[field];
-      e.target.classList.toggle("active");
-      vibrate(50);
+      // Smooth reset UI without full page reload if possible
+      $("resultView").style.display = "none";
+      $("lotteryView").style.display = "flex";
+      $("paper").classList.remove("emerge");
     });
-  };
-  handleToggle("soundToggle", "sound");
-  handleToggle("vibeToggle", "vibration");
-  handleToggle("effectToggle", "effects");
 
-  // Init
-  window.onload = () => {
-    const saved = loadResult();
-    if (saved) {
-      state.result = saved;
-      renderResult(saved);
-    }
-  };
+    // Toggles
+    const handleToggle = (id, field) => {
+      $(id).addEventListener("click", (e) => {
+        state[field] = !state[field];
+        e.target.classList.toggle("active");
+        vibrate(50);
+      });
+    };
+    handleToggle("soundToggle", "sound");
+    handleToggle("vibeToggle", "vibration");
+    handleToggle("effectToggle", "effects");
 
-</script>
+    // Init
+    window.onload = () => {
+      const saved = loadResult();
+      if (saved) {
+        state.result = saved;
+        renderResult(saved);
+      }
+    };
+
+  </script>
 </body>
+
 </html>
