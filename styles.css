@@ -1,0 +1,609 @@
+:root {
+  --red: #b91c1c;
+  --red-light: #ef4444;
+  --gold: #a16207;
+  --gold-light: #f59e0b;
+  --bg: #fffaf5;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --border: rgba(185, 28, 28, 0.15);
+  --shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.1);
+  --radius: 24px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  font-family: var(--font);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(185, 28, 28, 0.05), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(161, 98, 7, 0.05), transparent 40%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* 和柄：高品質なパターン画像 */
+.pattern-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.15;
+  background-image: url('assets/pattern.png');
+  background-size: 300px;
+}
+
+/* ヒーローテキストエリア */
+.hero-text-area {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 10px 0;
+}
+
+.ornament {
+  font-size: 32px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 10px var(--gold-light));
+}
+
+.hero-message {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+.hero-subtext {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.result-header-text {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--red);
+  letter-spacing: 0.2em;
+  margin-bottom: 12px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--red);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Main Card */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid white;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Lottery Interaction Area */
+.lottery-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 20px 0;
+}
+
+.omikuji-box-wrapper {
+  position: relative;
+  width: 140px;
+  height: 260px;
+  perspective: 1000px;
+  margin-top: 20px;
+}
+
+.omikuji-box {
+  width: 100%;
+  height: 100%;
+  background: #e3c192;
+  /* Tan/Wood color */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 10px 20px 40px -10px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  /* Side facets effect */
+  background-image: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.05) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(0, 0, 0, 0.1) 100%);
+}
+
+/* Lid (Dark Brown) */
+.box-lid {
+  position: absolute;
+  top: -15px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: #5c4033;
+  transform: rotateX(60deg);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.box-lid::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: #000;
+  border-radius: 50%;
+}
+
+/* Traditional red label */
+.box-label {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #000;
+  padding: 12px 6px;
+  writing-mode: vertical-rl;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.3em;
+  border: 3px solid var(--red);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Small hole at the top */
+.box-hole {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* The Stick (Miku-ji Bo) */
+.stick {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 10px;
+  height: 200px;
+  background: #e3c192;
+  /* Bamboo/Wood */
+  transform: translateX(-50%) translateY(0);
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+/* Red Tip */
+.stick::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  background: var(--red);
+  border-radius: 2px 2px 0 0;
+}
+
+.stick::after {
+  content: attr(data-fortune);
+  position: absolute;
+  bottom: 15px;
+  writing-mode: vertical-rl;
+  font-weight: 900;
+  font-size: 11px;
+  color: #333;
+  letter-spacing: 0.1em;
+}
+
+.stick.emerge {
+  transform: translateX(-50%) translateY(-160px) rotate(3deg);
+  opacity: 1;
+  z-index: 10;
+  box-shadow: 0 0 15px var(--gold-light);
+}
+
+/* Shaking Animation */
+.shaking {
+  animation: shake 0.4s infinite cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0) translate(0, 0);
+  }
+
+  10% {
+    transform: rotate(8deg) translate(5px, -5px);
+  }
+
+  20% {
+    transform: rotate(-8deg) translate(-5px, 5px);
+  }
+
+  30% {
+    transform: rotate(10deg) translate(2px, -8px);
+  }
+
+  40% {
+    transform: rotate(-10deg) translate(-2px, 8px);
+  }
+
+  50% {
+    transform: rotate(12deg) translate(4px, -4px);
+  }
+
+  60% {
+    transform: rotate(-12deg) translate(-4px, 4px);
+  }
+
+  70% {
+    transform: rotate(8deg) translate(3px, -3px);
+  }
+
+  80% {
+    transform: rotate(-8deg) translate(-3px, 3px);
+  }
+
+  90% {
+    transform: rotate(4deg) translate(1px, -1px);
+  }
+
+  100% {
+    transform: rotate(0) translate(0, 0);
+  }
+}
+
+/* The Result Paper */
+.paper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 90px;
+  height: 140px;
+  background: white;
+  border: 1px solid #ddd;
+  transform: translateX(-50%) translateY(0);
+  z-index: -1;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.paper.emerge {
+  transform: translateX(-50%) translateY(-120px) rotate(-5deg);
+  opacity: 1;
+  z-index: 10;
+}
+
+/* Result Details Fade-in */
+.result-view {
+  display: none;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fortune-title {
+  font-size: 56px;
+  font-weight: 1000;
+  color: var(--red);
+  text-align: center;
+  margin: 12px 0;
+  letter-spacing: 0.1em;
+  text-shadow: 2px 2px 0px rgba(185, 28, 28, 0.1);
+}
+
+.fortune-lead {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  padding: 0 10px;
+}
+
+.grid-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.detail-item:active {
+  transform: scale(0.98);
+}
+
+.detail-icon {
+  font-size: 24px;
+  margin-bottom: 2px;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* Luck Stamp Effect */
+.luck-stamp {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  border: 4px double var(--red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  font-weight: 900;
+  font-size: 24px;
+  opacity: 0.15;
+  transform: rotate(20deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.actions-list {
+  background: linear-gradient(to bottom right, #fffdfa, #fefce8);
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid #fef08a;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.actions-list::after {
+  content: "✨";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 40px;
+  opacity: 0.1;
+}
+
+.actions-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-row {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 10px;
+}
+
+.action-row::before {
+  content: "•";
+  color: var(--gold);
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  width: 100%;
+  height: 60px;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary {
+  background: var(--red);
+  color: white;
+  box-shadow: 0 8px 24px -6px rgba(185, 28, 28, 0.4);
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px -4px rgba(185, 28, 28, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--ink);
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:active {
+  transform: scale(0.96);
+  background: #f8fafc;
+}
+
+/* Settings / Toggles */
+.settings {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.toggle-btn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggle-btn.active {
+  border-color: var(--red);
+  color: var(--red);
+  background: #fef2f2;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Confetti Canvas */
+#canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* "Horse Quote" display */
+.horse-quote {
+  font-style: italic;
+  color: var(--gold);
+  text-align: center;
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 14px;
+}
