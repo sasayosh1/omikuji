@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>2026年 午年おみくじ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Zen Maru Gothic', sans-serif;
+        background-color: #fdfaf5;
+      }
+      .font-serif-jp {
+        font-family: 'Noto Serif JP', serif;
+      }
+      /* 和風文様パターン (青海波風をCSSで再現) */
+      .bg-pattern {
+        background-color: #fdfaf5;
+        background-image: radial-gradient(circle at 100% 150%, #fdfaf5 24%, #eee7d8 25%, #eee7d8 28%, #fdfaf5 29%, #fdfaf5 36%, #eee7d8 36%, #eee7d8 40%, transparent 40%),
+          radial-gradient(circle at 0 150%, #fdfaf5 24%, #eee7d8 25%, #eee7d8 28%, #fdfaf5 29%, #fdfaf5 36%, #eee7d8 36%, #eee7d8 40%, transparent 40%),
+          radial-gradient(circle at 50% 100%, #eee7d8 10%, #fdfaf5 11%, #fdfaf5 23%, #eee7d8 24%, #eee7d8 30%, #fdfaf5 31%, #fdfaf5 43%, #eee7d8 44%, #eee7d8 50%, #fdfaf5 51%, #fdfaf5 63%, #eee7d8 64%, #eee7d8 71%, transparent 71%),
+          radial-gradient(circle at 100% 50%, #eee7d8 5%, #fdfaf5 6%, #fdfaf5 15%, #eee7d8 16%, #eee7d8 20%, #fdfaf5 21%, #fdfaf5 30%, #eee7d8 31%, #eee7d8 35%, #fdfaf5 36%, #fdfaf5 45%, #eee7d8 46%, #eee7d8 49%, transparent 49%),
+          radial-gradient(circle at 0 50%, #eee7d8 5%, #fdfaf5 6%, #fdfaf5 15%, #eee7d8 16%, #eee7d8 20%, #fdfaf5 21%, #fdfaf5 30%, #eee7d8 31%, #eee7d8 35%, #fdfaf5 36%, #fdfaf5 45%, #eee7d8 46%, #eee7d8 49%, transparent 49%);
+        background-size: 100px 50px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .animate-bounce {
+          animation: none;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body class="bg-pattern min-h-screen flex items-center justify-center">
+    <div id="root" class="w-full max-w-md mx-auto h-full"></div>
+  </body>
+</html>
