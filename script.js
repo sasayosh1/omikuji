@@ -30,12 +30,13 @@ const horseQuotes = [
 // --- Configuration & State ---
 let state = {
   sound: true,
-  vibration: true,
   effects: true,
+  bgm: false,
   result: null
 };
 
 const LS_KEY = 'omikuji_2026_result';
+const SETTINGS_KEY = 'omikuji_2026_settings';
 
 // --- Utils ---
 const $ = (id) => document.getElementById(id);
@@ -138,6 +139,19 @@ const playSound = (type) => {
       source.start();
     }
   } catch (e) { }
+};
+
+// --- BGM ---
+const bgm = $("bgm");
+const updateBGM = () => {
+  if (state.bgm) {
+    bgm.volume = 0.25;
+    bgm.play().catch(e => {
+      console.log("BGM pending user interaction");
+    });
+  } else {
+    bgm.pause();
+  }
 };
 
 // --- Vibration ---
@@ -334,11 +348,43 @@ const handleToggle = (id, field) => {
   $(id).addEventListener("click", (e) => {
     state[field] = !state[field];
     e.target.classList.toggle("active");
-    vibrate(50);
+    if (field === 'vibration') vibrate(50);
+    saveSettings();
   });
 };
 handleToggle("soundToggle", "sound");
 handleToggle("effectToggle", "effects");
+
+// BGM specific toggle
+$("bgmToggle").addEventListener("click", (e) => {
+  state.bgm = !state.bgm;
+  e.target.classList.toggle("active");
+  updateBGM();
+  saveSettings();
+});
+
+const saveSettings = () => {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+    sound: state.sound,
+    effects: state.effects,
+    bgm: state.bgm
+  }));
+};
+
+const loadSettings = () => {
+  const saved = localStorage.getItem(SETTINGS_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    state.sound = parsed.sound ?? true;
+    state.effects = parsed.effects ?? true;
+    state.bgm = parsed.bgm ?? false;
+
+    // Update UI
+    if (!state.sound) $("soundToggle").classList.remove("active");
+    if (!state.effects) $("effectToggle").classList.remove("active");
+    if (state.bgm) $("bgmToggle").classList.add("active");
+  }
+};
 
 // Parallax Effect
 window.addEventListener('mousemove', (e) => {
@@ -349,6 +395,8 @@ window.addEventListener('mousemove', (e) => {
 });
 
 window.onload = () => {
+  loadSettings();
+  updateBGM();
   const saved = loadResult();
   if (saved) {
     state.result = saved;
